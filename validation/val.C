@@ -68,8 +68,8 @@ float ptbinsLow[nptbinsLow+1] = {10,12,15,20,30,45,72,150,300,750,2000};
 const int nptbinsFineSmall = 13;
 float ptbinsFineSmall[nptbinsFineSmall+1] = { 30,57,72,90,120,150,200,300,400,550,750,1000,1500,2000 };
 
-const int nptbinsFineSmall2 = 18;
-float ptbinsFineSmall2[nptbinsFineSmall2+1] = { 10,11,13,19,24,30,57,72,90,120,150,200,300,400,550,750,1000,1500,2000 };
+const int nptbinsFineSmall2 = 20;
+float ptbinsFineSmall2[nptbinsFineSmall2+1] = { 10,11,13,19,24,30,57,72,90,120,150,200,300,400,550,750,1000,1500,2000,3000,4000 };
 
 const int netabinsFineSmall = 78;
 float etabinsFineSmall[netabinsFineSmall+1] = {-4.716,-4.538,-4.363,-4.191,-4.013,-3.839,-3.664,

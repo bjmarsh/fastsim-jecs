@@ -8,7 +8,7 @@ sm.addGlobalOptions("--graphicspaths ../plots/,../../l1/images/")
 
 # sm.initSlides(me="Nick",themeName="alex",opts="--themecolor 100,74,196 --casual \\textbf{Nick Amin} ENDL \\today --font gillius")
 # sm.initSlides(me="Nick",themeName="alex",opts="--themecolor 29,76,165 --casual \\textbf{Nick Amin} ENDL \\today --font gillius")
-sm.initSlides(me="Nick",themeName="alex",opts="--themecolor 255,105,180 --font gillius")
+sm.initSlides(me="Nick",themeName="alexmod",opts="--themecolor 255,105,180 --font gillius")
 
 sm.addSlide(title="80X FastSim JECs", opts="")
         # - Use PU, NoPU samples to derive \\textbf{L1} corrections
@@ -147,4 +147,4 @@ for ialg,alg in enumerate(algs):
         # """)
 
 
-sm.writeSlides("jecValidation2016June17.tex", opts="--compile --copy --dump")
+sm.writeSlides("jecValidation2016June17_v2.tex", opts="--compile --copy --dump")

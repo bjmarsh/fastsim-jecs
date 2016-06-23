@@ -1,7 +1,8 @@
 0) Setup initial directory:
 ```
-cmsrel <ver used for FS sample>
-cd <ver>/src
+CMSSWVER=CMSSW_8_0_5_patch1 # or whatever version to be used
+cmsrel $CMSSWVER
+cd $CMSSWVER/src
 git clone https://github.com/cms-jet/JetMETAnalysis
 cd JetMETAnalysis
 cmsenv
@@ -10,6 +11,7 @@ cd JetAnalyzers/test
 git clone https://github.com/aminnj/jecs
 ```
 And be sure to modify paths in scripts to match reality
+
 1) Run on PUFlat and NoPU samples in the crab/ directory 
 
 2) Merge files (scripts in crab/tomerge/) and move them into this current directory
@@ -27,3 +29,5 @@ And be sure to modify paths in scripts to match reality
 8) Make slides with `python *py` inside of `validation/slides/`
 
 9) Copy JECs with `. copy_jecs.sh`
+
+10) Present at JetMET meeting
