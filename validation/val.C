@@ -13,6 +13,7 @@
 #include "TH1F.h"
 #include "TH2F.h"
 #include "TProfile.h"
+#include "TProfile2D.h"
 #include "TDirectory.h"
 #include "TFile.h"
 #include "TROOT.h"
@@ -191,7 +192,7 @@ int val(TString l1JECpfx, TString l2JECpfx, TString l3JECpfx, TString algo = "AK
 
     bool doSkip = false;
 
-    TString PUfilename = "../JRA_PUFlat.root";
+    TString PUfilename = "../JRA_FlatPU.root";
 
     if(prefix.Contains("NoFilt")) {
         doSkip = false;
@@ -236,6 +237,7 @@ int val(TString l1JECpfx, TString l2JECpfx, TString l3JECpfx, TString algo = "AK
     TH2F *responseL1L2CorrFine = new TH2F("responseL1L2CorrFine", "L1*L2L3*p_{T}(reco)/p_{T}(gen) in fine gen bins;p_{T};#eta", nptbinsFine,ptbinsFine,netabinsFine,etabinsFine);
     TH2F *responseL1L2CorrLow = new TH2F("responseL1L2CorrLow", "L1*L2L3*p_{T}(reco)/p_{T}(gen) in semi-fine gen bins;p_{T};#eta", nptbinsLow,ptbinsLow,netabins,etabins);
     TH2F *responseL1L2CorrUnc = new TH2F("responseL1L2CorrUnc", "L1*L2L3*p_{T}(reco)/p_{T}(gen) in JEC uncertainty bins;p_{T};#eta", nptbinsUnc,ptbinsUnc,netabinsUnc,etabinsUnc);
+    TH2F *L1vsEta = new TH2F("L1vsEta", "L1 vs eta", 50, -4.7,4.7, 50, 0, 2);
 
     // TProfile *ptVsEta = new TProfile("ptVsEta", "p_{T}(NoPU) - p_{T}(PU) in gen bins of #eta;#eta;p_{T}^{RECO}", netabinsFineSmall,etabinsFineSmall);
     // TProfile *ptVsEtaL1 = new TProfile("ptVsEtaL1", "p_{T}(NoPU) - L1*p_{T}(PU) in gen bins of #eta;#eta;p_{T}^{RECO}", netabinsFineSmall,etabinsFineSmall);
@@ -246,6 +248,8 @@ int val(TString l1JECpfx, TString l2JECpfx, TString l3JECpfx, TString algo = "AK
     TProfile *ptVsEtaL1 = new TProfile("ptVsEtaL1", "L1*p_{T}(PU) - p_{T}(NoPU) in gen bins of #eta;#eta;p_{T}^{RECO}", netabinsFineSmall,etabinsFineSmall);
     TProfile *ptVsPt = new TProfile("ptVsPt", "p_{T}(PU) - p_{T}(NoPU) in gen bins of p_{T};p_{T};p_{T}^{RECO}", nptbinsFineSmall,ptbinsFineSmall);
     TProfile *ptVsPtL1 = new TProfile("ptVsPtL1", "L1*p_{T}(PU) - p_{T}(NoPU) in gen bins of p_{T};p_{T};p_{T}^{RECO}", nptbinsFineSmall,ptbinsFineSmall);
+    TProfile2D *offsetPtEta = new TProfile2D("offsetPtEta", "", 50, 0, 1000, 25, -4.7, 4.7);
+    TProfile2D *offsetPtEtaL1 = new TProfile2D("offsetPtEtaL1", "", 50, 0, 1000, 25, -4.7, 4.7);
 
     TH1F *L1chisq = new TH1F("L1chisq", "Fit chi2/ndof for L1;#eta", netabinsFine,etabinsFine);
     TH1F *L2chisq = new TH1F("L2chisq", "Fit chi2/ndof for L2;#eta", netabinsFine,etabinsFine);
@@ -291,7 +295,7 @@ int val(TString l1JECpfx, TString l2JECpfx, TString l3JECpfx, TString algo = "AK
     // float jete[100], jetpt[100], jeteta[100], jetphi[100], jetarea[100];
     // float refdrjet[100], rho;
     std::vector<float>* refe = 0;
-	std::vector<float>* refpt = 0;
+    std::vector<float>* refpt = 0;
 	std::vector<float>* refeta = 0;
 	std::vector<float>* refphi = 0;
 	std::vector<float>* refdrjet = 0;
@@ -323,7 +327,8 @@ int val(TString l1JECpfx, TString l2JECpfx, TString l3JECpfx, TString algo = "AK
 
 
     unsigned int nEventsTree = tree->GetEntries();
-    unsigned int nEventsPU = nEventsTree;
+    // unsigned int nEventsPU = nEventsTree;
+    unsigned int nEventsPU = 1000000;
     cout << "nEventsPU: " << nEventsPU << endl;
 
     unsigned int totJets = 0;
@@ -354,6 +359,8 @@ int val(TString l1JECpfx, TString l2JECpfx, TString l3JECpfx, TString algo = "AK
             jetCorrectorL2->setJetEta(jeteta->at(iref));
             jetCorrectorL2->setJetPt(jetpt->at(iref));
             jetCorrectorL2->setJetE(jete->at(iref));
+            // jetCorrectorL2->setJetA(jetarea->at(iref));
+            // jetCorrectorL2->setRho(rho);
 
             jetCorrectorL3->setJetEta(jeteta->at(iref));
             jetCorrectorL3->setJetPt(jetpt->at(iref));
@@ -362,6 +369,8 @@ int val(TString l1JECpfx, TString l2JECpfx, TString l3JECpfx, TString algo = "AK
             float jetCorrectionL1 = jetCorrectorL1->getCorrection();
             float jetCorrectionL2 = jetCorrectorL2->getCorrection();
             float jetCorrectionL3 = 1.0; // jetCorrectorL3->getCorrection();
+            // float jetCorrectionL3 = jetCorrectorL3->getCorrection();
+
 
             if ( jetCorrectionL1*resp < 0.0 || jetCorrectionL1*resp > 2.0 ) continue; // FIXME
 
@@ -375,7 +384,7 @@ int val(TString l1JECpfx, TString l2JECpfx, TString l3JECpfx, TString algo = "AK
 
 
 
-            if(fabs(jeteta->at(iref)) > 3.0 && fabs(jeteta->at(iref)) < 5.0) {
+            if(fabs(jeteta->at(iref)) > 0.0 && fabs(jeteta->at(iref)) < 1.3) {
                 int iPt = 0;
                 for(int i = 0; i < nptbinsFineSmall2+1; i++) {
                     if( refpt->at(iref) < ptbinsFineSmall2[i] ) {
@@ -417,6 +426,7 @@ int val(TString l1JECpfx, TString l2JECpfx, TString l3JECpfx, TString algo = "AK
             L1corrFine->Fill(genjet.Pt(), genjet.Eta(), jetCorrectionL1);
             responseL1Corr->Fill(genjet.Pt(), genjet.Eta(), resp*jetCorrectionL1);
             responseL1CorrFine->Fill(genjet.Pt(), genjet.Eta(), resp*jetCorrectionL1);
+            L1vsEta->Fill(genjet.Eta(), jetCorrectionL1);
 
             L2pt->Fill(genjet.Pt(), jetCorrectionL2L3);
             L2eta->Fill(genjet.Eta(), jetCorrectionL2L3);
@@ -428,7 +438,7 @@ int val(TString l1JECpfx, TString l2JECpfx, TString l3JECpfx, TString algo = "AK
             responseL1L2CorrLow->Fill(genjet.Pt(), genjet.Eta(), resp*jetCorrectionL1*jetCorrectionL2L3);
 
             if( jeteta->at(iref) < 0.087 && jeteta->at(iref) > 0.0 ) { // FIXME
-                if(refpt->at(iref) > 10 && refpt->at(iref) < 11) {
+                if(refpt->at(iref) > 40 && refpt->at(iref) < 45) {
                     responseEtaRegion->Fill(resp);
                     responseEtaRegionL1->Fill(jetCorrectionL1*resp);
                     responseEtaRegionL1L2->Fill(jetCorrectionL2L3*jetCorrectionL1*resp);
@@ -488,7 +498,8 @@ int val(TString l1JECpfx, TString l2JECpfx, TString l3JECpfx, TString algo = "AK
         tree->SetBranchAddress("rho",&rho);
 
         unsigned int nEventsTree = tree->GetEntries();
-        unsigned int nEventsNoPU = nEventsTree;
+        // unsigned int nEventsNoPU = nEventsTree;
+        unsigned int nEventsNoPU = 1000000;
         cout << "nEventsNoPU: " << nEventsNoPU << endl;
 
         unsigned int totJets = 0;
@@ -541,6 +552,8 @@ int val(TString l1JECpfx, TString l2JECpfx, TString l3JECpfx, TString algo = "AK
                 jetCorrectorL2->setJetEta(jeteta->at(iref));
                 jetCorrectorL2->setJetPt(jetpt->at(iref));
                 jetCorrectorL2->setJetE(jete->at(iref));
+                jetCorrectorL2->setJetA(jetarea->at(iref));
+                jetCorrectorL2->setRho(rho);
                 float jetCorrectionL2 = jetCorrectorL2->getCorrection();
 
 
@@ -550,7 +563,6 @@ int val(TString l1JECpfx, TString l2JECpfx, TString l3JECpfx, TString algo = "AK
         cout << "Considered " << totJets << " NoPU jets in total." << endl;
 
     }
-
 
     int matchedJets = 0;
     if(makeMap) {
@@ -566,6 +578,9 @@ int val(TString l1JECpfx, TString l2JECpfx, TString l3JECpfx, TString algo = "AK
 
             ptVsEta->Fill(j.PUgenEta, -(j.NoPUrecoPt-j.PUrecoPt));
             ptVsEtaL1->Fill(j.PUgenEta, -(j.NoPUrecoPt-j.correctionL1*j.PUrecoPt));
+
+            offsetPtEta->Fill(j.PUgenPt, j.PUgenEta, -(j.NoPUrecoPt-j.PUrecoPt));
+            offsetPtEtaL1->Fill(j.PUgenPt, j.PUgenEta, -(j.NoPUrecoPt-j.correctionL1*j.PUrecoPt));
 
             float response = j.PUrecoPt/j.PUgenPt;
             float corrResponse = j.correctionL1*j.correctionL2*j.PUrecoPt/j.PUgenPt;
@@ -775,8 +790,8 @@ int val(TString l1JECpfx, TString l2JECpfx, TString l3JECpfx, TString algo = "AK
 
     c1->SetLogx(1);
     responseL1CorrFine->Divide(countsFine);
-    responseL1CorrFine->SetMaximum(2.0);
-    responseL1CorrFine->SetMinimum(0.0);
+    responseL1CorrFine->SetMaximum(1.3);
+    responseL1CorrFine->SetMinimum(0.7);
     responseL1CorrFine->Draw("colz");
     c1->SaveAs(plotdir+prefix+"responseL1CorrFine.pdf");
     c1->SetLogx(0);
@@ -787,10 +802,14 @@ int val(TString l1JECpfx, TString l2JECpfx, TString l3JECpfx, TString algo = "AK
     L1corr->Draw("colztexte");
     c1->SaveAs(plotdir+prefix+"L1corr.pdf");
 
+    c1->SetLogy(0);
+    L1vsEta->Draw("colz");
+    c1->SaveAs(plotdir+prefix+"L1vsEta.pdf");
+
     c1->SetLogx(1);
     L1corrFine->Divide(countsFine);
-    L1corrFine->SetMaximum(2.0);
-    L1corrFine->SetMinimum(0.0);
+    L1corrFine->SetMaximum(1.3);
+    L1corrFine->SetMinimum(0.7);
     L1corrFine->Draw("colz");
     c1->SaveAs(plotdir+prefix+"L1corrFine.pdf");
     c1->SetLogx(0);
@@ -826,6 +845,19 @@ int val(TString l1JECpfx, TString l2JECpfx, TString l3JECpfx, TString algo = "AK
     ptVsPtL1->Draw("PE");
     c1->SaveAs(plotdir+prefix+"ptVsPtL1.pdf");
     c1->SetLogx(0);
+
+    c1->SetLogx(0);
+    offsetPtEta->SetMinimum(-5);
+    offsetPtEta->SetMaximum(5);
+    offsetPtEta->Draw("colz");
+    c1->SaveAs(plotdir+prefix+"offsetPtEta.pdf");
+
+    c1->SetLogx(0);
+    offsetPtEtaL1->SetMinimum(-5);
+    offsetPtEtaL1->SetMaximum(5);
+    offsetPtEtaL1->Draw("colz");
+    c1->SaveAs(plotdir+prefix+"offsetPtEtaL1.pdf");
+        
 
     /////////////////////
     // L2 CORRECTIONS  //

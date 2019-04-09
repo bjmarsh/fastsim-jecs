@@ -13,7 +13,7 @@ etaBins = [-5.4,-5.0,-4.4,-4,-3.5,-3,-2.8,-2.6,-2.4,-2.2,-2.0,-1.8,-1.6,-1.4,-1.
 
 
 def writeUncertainties(alg):
-    upperAlg = alg.upper().replace("CHS","chs")
+    upperAlg = alg.upper().replace("CHS","chs").replace("PUPPI","PFPuppi")
 
     fh = open("%s_unc.txt" % alg,"r")
     lines = fh.readlines()
@@ -57,7 +57,8 @@ def writeUncertainties(alg):
         fout.write("\n")
 
 def addInQuadrature(dValsBefore, upperAlg):
-    fh = open("Spring16_25nsV2_MC_Uncertainty_%s.txt" % upperAlg,"r")
+    # fh = open("Spring16_25nsV2_MC_Uncertainty_%s.txt" % upperAlg,"r")
+    fh = open("fullsimjecs/Fall17_17Nov2017_V32_MC_Uncertainty_%s.txt" % upperAlg, 'r')
     lines = fh.readlines()[1:]
 
     dValsExtra = {}
@@ -90,7 +91,7 @@ def addInQuadrature(dValsBefore, upperAlg):
 
 # addInQuadrature()
 
-writeUncertainties("ak4pfchs")
-writeUncertainties("ak8pfchs")
-writeUncertainties("ak4pf")
-writeUncertainties("ak8pf")
+# writeUncertainties("ak4pfchs")
+# writeUncertainties("ak8pfchs")
+# writeUncertainties("ak4puppi")
+writeUncertainties("ak8puppi")

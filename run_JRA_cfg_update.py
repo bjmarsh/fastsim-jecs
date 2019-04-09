@@ -30,8 +30,9 @@ if doProducer:
 algorithms = []
 jcr = cms.VPSet()
 
-# for alg in ['ak4pf', 'ak4pfchs', 'ak8pf', 'ak8pfchs' ]:
-for alg in ['ak4pfchs', 'ak4puppi', 'ak8puppi']:
+for alg in ['ak4pf', 'ak4pfchs', 'ak8pfchs', 'ak4puppi', 'ak8puppi' ]:
+# for alg in ['ak4pfchs', 'ak4puppi', 'ak8puppi']:
+# for alg in ['ak4pfchs']:
     print "Adding jet algorithm:", alg
     algorithms.append(alg)
 
@@ -85,7 +86,7 @@ except ImportError:
     print "Couldn't open the external list of files from DAS. If you just checkout out the JetResponseAnalyzer package you will need to make this file yourself. Currently Falling back to opening the list hard-coded in run_JRA_cfg.py. This is not a bad action as long as it is what you intended to have happen."
     inputFiles = cms.untracked.vstring(
 	    # 'root://cmsxrootd.fnal.gov//store/mc/RunIIFall17FSDR/QCD_Pt-15to7000_TuneCP2_Flat_13TeV_pythia8_FlatPU/AODSIM/ForJEC_SUSY_94X_mc2017_realistic_v15-v1/60001/F43C4F10-2933-E911-BA80-FA163E42D7F5.root'
-	    'root://cmsxrootd.fnal.gov//store/mc/RunIIFall17MiniAODv2/QCD_Pt-15to7000_TuneCP2_Flat_13TeV_pythia8_FlatPU/MINIAODSIM/PUFall17Fast_ForJEC_SUSY_94X_mc2017_realistic_v15-v1/60000/DCFD9963-BF32-E911-9B2C-FA163E04461F.root'
+	    'file:/hadoop/cms/store/user/bemarsh/ProjectMetis/QCD_Pt-15to7000_TuneCP5_Flat2018_13TeV_pythia8_privateMC_fastsim_FlatPU_94x_AODSIM_v2/output_42.root',
 	    )
     process.source = cms.Source("PoolSource", fileNames = inputFiles )
 
@@ -94,7 +95,7 @@ except ImportError:
 #! SERVICES
 #!
 process.load('FWCore.MessageLogger.MessageLogger_cfi')
-process.MessageLogger.cerr.FwkReport.reportEvery = 100
+process.MessageLogger.cerr.FwkReport.reportEvery = 10
 process.options = cms.untracked.PSet( wantSummary = cms.untracked.bool(True))
 if doProducer:
     process.add_(cms.Service("Tracer"))
@@ -123,7 +124,7 @@ import JetMETAnalysis.JetAnalyzers.Defaults_cff as Defaults
 #!
 
 # set to False to use jets from the input file (NOT RECOMMENDED)
-doJetReco = False
+doJetReco = True
 outCom = cms.untracked.vstring('drop *')
 from JetMETAnalysis.JetAnalyzers.addAlgorithm import addAlgorithm
 for algorithm in algorithms:

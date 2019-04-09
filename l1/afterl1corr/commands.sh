@@ -1,14 +1,15 @@
-flatPUL1cor=JRA_PUFlat_jec.root
+flatPUL1cor=JRA_FlatPU_jec.root
 noPU=JRA_NoPU.root
-basepath=/home/users/namin/2016/jec/CMSSW_8_0_5_patch1/src/JetMETAnalysis/JetAnalyzers/test/
+basepath=/home/users/bemarsh/analysis/fastsim_jecs/JRA_fromAOD/CMSSW_9_4_12/src/JetMETAnalysis/JetAnalyzers/test/fastsim-jecs/
 outputpath=${basepath}/l1/afterl1corr/
-era=Spring16_25nsV3
+era=Fall17_17Nov2017_V32_MC
 
 algos="
 ak4pf
 ak4pfchs
-ak8pf
 ak8pfchs
+ak4puppi
+ak8puppi
 "
 
 
@@ -16,11 +17,10 @@ ak8pfchs
 
 # # get root files for matched jets for L1 correction
 # for algo in $algos; do
-#     jet_synchtest_x -algo1 ${algo}l1 -algo2 $algo -samplePU $flatPUL1cor -sampleNoPU $noPU -basepath $basepath -outputPath $outputpath >& log_${algo}l1.txt &
-#     sleep 3m;
+#     jet_match_x -algo1 ${algo}l1 -algo2 $algo -samplePU $flatPUL1cor -sampleNoPU $noPU -basepath $basepath -outputPath $outputpath >& log_${algo}l1.txt &
 # done
 
-wait
+# wait
 
 ##### 2 #####
 
@@ -30,6 +30,6 @@ mkdir -p parameters/
 mkdir -p text/
 for algo in $algos; do
     # jet_synchfit_x -algo1 ${algo}l1 -algo2 $algo
-    jet_synchplot_x -algo1 ${algo}l1 -algo2 $algo -outputFormat ".pdf" -fixedRange false
-    mv Parameter_${algo}.* parameters/
+    jet_synchplot_x -algo1 ${algo}l1 -algo2 $algo -outputFormat ".pdf" -fixedRange true
+    # mv Parameter_${algo}.* parameters/
 done
