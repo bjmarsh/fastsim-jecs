@@ -327,8 +327,8 @@ int val(TString l1JECpfx, TString l2JECpfx, TString l3JECpfx, TString algo = "AK
 
 
     unsigned int nEventsTree = tree->GetEntries();
-    // unsigned int nEventsPU = nEventsTree;
-    unsigned int nEventsPU = 1000000;
+    unsigned int nEventsPU = nEventsTree;
+    // unsigned int nEventsPU = 1000000;
     cout << "nEventsPU: " << nEventsPU << endl;
 
     unsigned int totJets = 0;
@@ -384,7 +384,7 @@ int val(TString l1JECpfx, TString l2JECpfx, TString l3JECpfx, TString algo = "AK
 
 
 
-            if(fabs(jeteta->at(iref)) > 0.0 && fabs(jeteta->at(iref)) < 1.3) {
+            if(fabs(jeteta->at(iref)) > 1.3 && fabs(jeteta->at(iref)) < 2.5) {
                 int iPt = 0;
                 for(int i = 0; i < nptbinsFineSmall2+1; i++) {
                     if( refpt->at(iref) < ptbinsFineSmall2[i] ) {
@@ -498,8 +498,8 @@ int val(TString l1JECpfx, TString l2JECpfx, TString l3JECpfx, TString algo = "AK
         tree->SetBranchAddress("rho",&rho);
 
         unsigned int nEventsTree = tree->GetEntries();
-        // unsigned int nEventsNoPU = nEventsTree;
-        unsigned int nEventsNoPU = 1000000;
+        unsigned int nEventsNoPU = nEventsTree;
+        // unsigned int nEventsNoPU = 1000000;
         cout << "nEventsNoPU: " << nEventsNoPU << endl;
 
         unsigned int totJets = 0;

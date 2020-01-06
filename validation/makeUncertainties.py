@@ -24,6 +24,8 @@ def writeUncertainties(alg):
     for line in lines:
         parts = line.split()
         eta, pt, total, count = float(parts[0]), int(parts[1]), float(parts[2]), int(parts[3])
+        if pt==8:
+            print eta, pt, total, count
 
         uncertainty = 0.2
         if count > 0:
@@ -32,10 +34,10 @@ def writeUncertainties(alg):
 
         dVals[(eta,pt)] = uncertainty
 
-    # print dVals[(-5.4,8)]
     # print dVals[(2.0,12)]
     dVals = addInQuadrature(dVals, upperAlg)
-    # print dVals[(-5.4,8)]
+    print dVals[(-5.4,8)]
+    print dVals[(5.0,8)]
     # print dVals[(2.0,12)]
 
     ndiv_pt = len(ptBins)-1
@@ -58,7 +60,8 @@ def writeUncertainties(alg):
 
 def addInQuadrature(dValsBefore, upperAlg):
     # fh = open("Spring16_25nsV2_MC_Uncertainty_%s.txt" % upperAlg,"r")
-    fh = open("fullsimjecs/Fall17_17Nov2017_V32_MC_Uncertainty_%s.txt" % upperAlg, 'r')
+    # fh = open("fullsimjecs/Fall17_17Nov2017_V32_MC_Uncertainty_%s.txt" % upperAlg, 'r')
+    fh = open("fullsimjecs/Summer16_07Aug2017_V11_MC_Uncertainty_%s.txt" % upperAlg, 'r')
     lines = fh.readlines()[1:]
 
     dValsExtra = {}

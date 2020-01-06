@@ -5,7 +5,7 @@ import FWCore.ParameterSet.Config as cms
 #!
 # Conditions source options: GT, SQLite, DB
 conditionsSource = "GT"
-era = "Fall17_17Nov2017_V32_94X_MC"
+era = "Summer16_07Aug2017_V11_94X_MC"
 doProducer = False
 process = cms.Process("JRA")
 multithread = False
@@ -56,7 +56,7 @@ for alg in ['ak4pf', 'ak4pfchs', 'ak8pfchs', 'ak4puppi', 'ak8puppi' ]:
 #! CONDITIONS (DELIVERING JEC BY DEFAULT!)
 #!
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_condDBv2_cff")
-process.GlobalTag.globaltag = cms.string('94X_mc2017_realistic_v17')
+process.GlobalTag.globaltag = cms.string('94X_mcRun2_asymptotic_v3')
 
 if conditionsSource != "GT":
     # from CondCore.DBCommon.CondDBSetup_cfi import *
@@ -86,7 +86,8 @@ except ImportError:
     print "Couldn't open the external list of files from DAS. If you just checkout out the JetResponseAnalyzer package you will need to make this file yourself. Currently Falling back to opening the list hard-coded in run_JRA_cfg.py. This is not a bad action as long as it is what you intended to have happen."
     inputFiles = cms.untracked.vstring(
 	    # 'root://cmsxrootd.fnal.gov//store/mc/RunIIFall17FSDR/QCD_Pt-15to7000_TuneCP2_Flat_13TeV_pythia8_FlatPU/AODSIM/ForJEC_SUSY_94X_mc2017_realistic_v15-v1/60001/F43C4F10-2933-E911-BA80-FA163E42D7F5.root'
-	    'file:/hadoop/cms/store/user/bemarsh/ProjectMetis/QCD_Pt-15to7000_TuneCP5_Flat2018_13TeV_pythia8_privateMC_fastsim_FlatPU_94x_AODSIM_v2/output_42.root',
+	    # 'file:/hadoop/cms/store/user/bemarsh/ProjectMetis/QCD_Pt-15to7000_TuneCP5_Flat2018_13TeV_pythia8_privateMC_fastsim_FlatPU_94x_AODSIM_v2/output_42.root',
+	    'file:/hadoop/cms/store/user/bemarsh/ProjectMetis/QCD_Pt-15to7000_TuneCUETP8M1_Flat_13TeV_pythia8_privateMC2016_fastsim_NoPU_94x_AODSIM_v1/output_42.root',
 	    )
     process.source = cms.Source("PoolSource", fileNames = inputFiles )
 

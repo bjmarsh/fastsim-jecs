@@ -5,7 +5,7 @@ r.gStyle.SetNumberContours(255)
 r.gStyle.SetOptStat(0)
 r.gROOT.SetBatch(1)
 
-algo = "ak4pfchs"
+algo = "ak8pfchs"
 
 fin = r.TFile("{0}.root".format(algo))
 t = fin.Get("t")
@@ -71,45 +71,45 @@ c.SetLogx()
 r.gStyle.SetPalette(r.kLightTemperature)
 h2_l1corr.GetZaxis().SetRangeUser(0.5,1.5)
 h2_l1corr.Draw("colz")
-c.SaveAs("bennettplots/{0}_L1corrPtEtaFine.pdf".format(algo))
-c.SaveAs("bennettplots/{0}_L1corrPtEtaFine.png".format(algo))
+c.SaveAs("Summer16_bennettplots/{0}_L1corrPtEtaFine.pdf".format(algo))
+c.SaveAs("Summer16_bennettplots/{0}_L1corrPtEtaFine.png".format(algo))
 
 h_l1pt.SetMarkerStyle(20)
 h_l1pt.SetMarkerColor(r.kRed)
 h_l1pt.SetLineColor(r.kRed)
 h_l1pt.Draw("PE")
-c.SaveAs("bennettplots/{0}_L1corrPt.pdf".format(algo))
-c.SaveAs("bennettplots/{0}_L1corrPt.png".format(algo))
+c.SaveAs("Summer16_bennettplots/{0}_L1corrPt.pdf".format(algo))
+c.SaveAs("Summer16_bennettplots/{0}_L1corrPt.png".format(algo))
 
 c.SetLogx(0)
 h_l1eta.SetMarkerStyle(20)
 h_l1eta.SetMarkerColor(r.kRed)
 h_l1eta.SetLineColor(r.kRed)
 h_l1eta.Draw("PE")
-c.SaveAs("bennettplots/{0}_L1corrEta.pdf".format(algo))
-c.SaveAs("bennettplots/{0}_L1corrEta.png".format(algo))
+c.SaveAs("Summer16_bennettplots/{0}_L1corrEta.pdf".format(algo))
+c.SaveAs("Summer16_bennettplots/{0}_L1corrEta.png".format(algo))
 
 c.SetLogx()
 r.gStyle.SetPalette(r.kLightTemperature)
 h2_l2corr.GetZaxis().SetRangeUser(0.5,1.5)
 h2_l2corr.Draw("colz")
-c.SaveAs("bennettplots/{0}_L2corrPtEtaFine.pdf".format(algo))
-c.SaveAs("bennettplots/{0}_L2corrPtEtaFine.png".format(algo))
+c.SaveAs("Summer16_bennettplots/{0}_L2corrPtEtaFine.pdf".format(algo))
+c.SaveAs("Summer16_bennettplots/{0}_L2corrPtEtaFine.png".format(algo))
 
 h_l2pt.SetMarkerStyle(20)
 h_l2pt.SetMarkerColor(r.kRed)
 h_l2pt.SetLineColor(r.kRed)
 h_l2pt.Draw("PE")
-c.SaveAs("bennettplots/{0}_L2corrPt.pdf".format(algo))
-c.SaveAs("bennettplots/{0}_L2corrPt.png".format(algo))
+c.SaveAs("Summer16_bennettplots/{0}_L2corrPt.pdf".format(algo))
+c.SaveAs("Summer16_bennettplots/{0}_L2corrPt.png".format(algo))
 
 c.SetLogx(0)
 h_l2eta.SetMarkerStyle(20)
 h_l2eta.SetMarkerColor(r.kRed)
 h_l2eta.SetLineColor(r.kRed)
 h_l2eta.Draw("PE")
-c.SaveAs("bennettplots/{0}_L2corrEta.pdf".format(algo))
-c.SaveAs("bennettplots/{0}_L2corrEta.png".format(algo))
+c.SaveAs("Summer16_bennettplots/{0}_L2corrEta.pdf".format(algo))
+c.SaveAs("Summer16_bennettplots/{0}_L2corrEta.png".format(algo))
 
 c.SetLogx(0)
 for i in range(len(respeta_binning)-1):
@@ -124,8 +124,8 @@ for i in range(len(respeta_binning)-1):
     pt1 = int(ptbinsfine[respeta_binning[i]-1])
     pt2 = int(ptbinsfine[respeta_binning[i+1]-1])
     pt2 = "Inf" if respeta_binning[i+1]==0 else pt2
-    c.SaveAs("bennettplots/{0}_respEtaCorr_pt{1}to{2}.pdf".format(algo, pt1, pt2))
-    c.SaveAs("bennettplots/{0}_respEtaCorr_pt{1}to{2}.png".format(algo, pt1, pt2))
+    c.SaveAs("Summer16_bennettplots/{0}_respEtaCorr_pt{1}to{2}.pdf".format(algo, pt1, pt2))
+    c.SaveAs("Summer16_bennettplots/{0}_respEtaCorr_pt{1}to{2}.png".format(algo, pt1, pt2))
 
 c2 = r.TCanvas("c2","c2",600,600)
 c2.SetLogx()
@@ -166,8 +166,8 @@ def drawOffsetPlot(h3_count, h3_offset, name, isRel=False):
         text.DrawLatex(0.17, 0.85, "{0} jets".format(algo))
         text.DrawLatex(0.17, 0.80, "{0} #leq |#eta| < {1}".format(etabins[ieta], etabins[ieta+1]))
 
-        c2.SaveAs("bennettplots/{0}_{1}_eta{2}.pdf".format(algo, name, ieta))
-        c2.SaveAs("bennettplots/{0}_{1}_eta{2}.png".format(algo, name, ieta))
+        c2.SaveAs("Summer16_bennettplots/{0}_{1}_eta{2}.pdf".format(algo, name, ieta))
+        c2.SaveAs("Summer16_bennettplots/{0}_{1}_eta{2}.png".format(algo, name, ieta))
 
 drawOffsetPlot(h3_pucount, h3_offsetcorr, "L1closure_corr")
 drawOffsetPlot(h3_pucount, h3_offsetuncorr, "L1closure_uncorr")
@@ -211,8 +211,8 @@ line.SetLineStyle(2)
 line.DrawLine(ptbins[0], 1.02, ptbins[-1], 1.02)
 line.DrawLine(ptbins[0], 0.98, ptbins[-1], 0.98)
 
-c.SaveAs("bennettplots/{0}_L1L2closure_corr.pdf".format(algo))
-c.SaveAs("bennettplots/{0}_L1L2closure_corr.png".format(algo))
+c.SaveAs("Summer16_bennettplots/{0}_L1L2closure_corr.pdf".format(algo))
+c.SaveAs("Summer16_bennettplots/{0}_L1L2closure_corr.png".format(algo))
 
 for ieta in range(etabins.size-1):
     hcount = h2_respcount.ProjectionX(str(ieta)+"respcount", ieta+1, ieta+1)
@@ -248,6 +248,6 @@ line.SetLineStyle(2)
 line.DrawLine(ptbins[0], 1.02, ptbins[-1], 1.02)
 line.DrawLine(ptbins[0], 0.98, ptbins[-1], 0.98)
 
-c.SaveAs("bennettplots/{0}_L1L2closure_uncorr.pdf".format(algo))
-c.SaveAs("bennettplots/{0}_L1L2closure_uncorr.png".format(algo))
+c.SaveAs("Summer16_bennettplots/{0}_L1L2closure_uncorr.pdf".format(algo))
+c.SaveAs("Summer16_bennettplots/{0}_L1L2closure_uncorr.png".format(algo))
 

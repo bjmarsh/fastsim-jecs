@@ -2,7 +2,8 @@ flatPU=JRA_FlatPU.root
 noPU=JRA_NoPU.root
 basepath=/home/users/bemarsh/analysis/fastsim_jecs/JRA_fromAOD/CMSSW_9_4_12/src/JetMETAnalysis/JetAnalyzers/test/fastsim-jecs/
 outputpath=${basepath}/l1/
-era=Fall17_17Nov2017_V32_MC
+# era=Fall17_17Nov2017_V32_MC
+era=Summer16_07Aug2017_V11_94X_MC
 
 algos="
 ak4pf
